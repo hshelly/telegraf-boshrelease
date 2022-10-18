@@ -14,10 +14,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -e
-set -u
+set -eux
 
-tar xfz telegraf/telegraf-*.tar.gz \
-  --strip-components 3 \
-  --wildcards \
-  -C $BOSH_INSTALL_TARGET './*/usr/bin/telegraf'
+
+echo -e "$(find / -name "telegraf-*")"
+
+
+echo -e "$(ls -ltr /var/vcap/packages/*)"
+echo -e "$(ls -ltr /var/vcap/data/compile/*)"
+
+mkdir -p ${BOSH_INSTALL_TARGET}/bin
+tar xzvf ${BOSH_COMPILE_TARGET}/telegraf/telegraf-*.tar.gz
+cp -a ${BOSH_COMPILE_TARGET}/telegraf-*/usr/bin/* ${BOSH_INSTALL_TARGET}/bin
+
+
+#tar xfz telegraf/telegraf-1.24.1_linux_amd64.tar.gz \
+#  --strip-components 3 \
+#  --wildcards \
+#  -C $BOSH_INSTALL_TARGET './*/usr/bin/telegraf'

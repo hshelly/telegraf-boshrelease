@@ -1,6 +1,6 @@
 ---
 blobstore:
-  provider: s3
+  provider: local
   options:
-    bucket_name: bosh-release-telegraf
+    blobstore_path: /mnt/c/Users/hshelly/Documents/IdeaProjects/telegraf-boshrelease/blobs/telegraf/telegraf-1.24.1_linux_amd64.tar.gz
 final_name: c-telegraf

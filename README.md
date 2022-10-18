@@ -5,6 +5,11 @@
 Update BOSH runtime config with telegraf job configuration as listed below
 
 ```shell
+
+
+bosh upload-release https://dl.influxdata.com/telegraf/releases/telegraf-1.24.1_linux_arm64.tar.gz
+
+
 # review existing runtime config
 bosh runtime-config
 # merge with content listed below and save in file runtime-config.yml

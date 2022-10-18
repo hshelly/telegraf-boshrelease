@@ -1,42 +1,38 @@
 [global_tags]
-  service = "<%= spec.deployment.sub(/-[0-9a-f]{20}$/, '') %>"
-  node_type = "<%= spec.name %>"
-  instance = "<%= spec.index %>"
-  az = "<%= spec.az %>"
-  <% if_p("telegraf.tags") do |tags| tags.each do |tag, value| %>
-  <%= tag %> = "<%= value %>"
-  <% end; end %>
 
 [agent]
-  interval = "1m"
-  flush_interval = "1m"
-  flush_jitter = "15s"
+  interval = "<%= p("telegraf.data_collection_interval") %>"
+  flush_interval = "<%= p("telegraf.flush_interval") %>"
+  flush_jitter = "<%= p("telegraf.flush_jitter") %>"
+  metric_buffer_limit = <%= p("telegraf.metric_buffer_limit") %>
 
-[[outputs.influxdb]]
-  urls = ["<%= p("telegraf.influxdb.url") %>"]
-  database = "<%= p("telegraf.influxdb.database") %>"
-  retention_policy = "<%= p("telegraf.influxdb.retention_policy") %>"
+[[outputs.wavefront]]
+  url = "<%= p("telegraf.wavefront.url") %>"
+  prefix = "<%= p("telegraf.wavefront.prefix") %>"
+  convert_paths=true
+  metric_separator = "."
 
-[[inputs.cpu]]
-  percpu = false
-  totalcpu = true
-[[inputs.disk]]
-  # Limit to BOSH specific mount points
-  mount_points = ["/", "/var/vcap/data", "/var/vcap/store"]
-[[inputs.diskio]]
-  # individual partitions can be reported using "sda1" syntax
-  devices = ["sda", "sdb", "sdc", "xvda", "xvdb", "xvdc"]
-[[inputs.kernel]]
-[[inputs.mem]]
-[[inputs.processes]]
-[[inputs.swap]]
-[[inputs.system]]
-[[inputs.net]]
-  # interface "all" used for system wide ip/tcp/udp/icmp stats
-  # explicitly list interface "eth0" to avoid including bridged interfaces
-  interfaces = ["all", "eth0"]
-[[inputs.netstat]]
-[[inputs.nstat]]
-  # Disable IPv6
-  proc_net_snmp6 = "/dev/null"
-  dump_zeros = true
+[[inputs.internal]]
+  interval="1s"
+  collect_memstats = true
+  name_prefix="telegraf."
+
+
+
+
+[[inputs.elasticsearch]]
+  servers = <%= p("telegraf.elasticsearch.servers") %>
+  http_timeout = "<%= p("telegraf.elasticsearch.http_timeout") %>"
+  local = <%= p("telegraf.elasticsearch.local") %>
+  cluster_health = <%= p("telegraf.elasticsearch.cluster_health") %>
+  cluster_health_level = "<%= p("telegraf.elasticsearch.cluster_health_level") %>"
+  cluster_stats = <%= p("telegraf.elasticsearch.cluster_stats") %>
+  cluster_stats_only_from_master = <%= p("telegraf.elasticsearch.cluster_stats_only_from_master") %>
+  indices_include = ["_all"]
+  indices_level = "<%= p("telegraf.elasticsearch.indices_level") %>"
+  insecure_skip_verify = <%= p("telegraf.elasticsearch.insecure_skip_verify") %>
+<% if_p("telegraf.elasticsearch.username") do |username| %>
+    username = <%= p("telegraf.elasticsearch.username") %>
+    password = <%= p("telegraf.elasticsearch.password") %>
+<% end %>
+

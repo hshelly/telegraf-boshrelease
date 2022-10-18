@@ -10,16 +10,52 @@ packages:
 - telegraf
 
 properties:
-  telegraf.tags:
-   description: Telegraf global tags as a dictionary
-   default: {}
+  telegraf.metric_buffer_limit:
+    default: 10000
+  telegraf.flush_interval:
+    description: "Global flush interval"
+    default: "15s"
+  telegraf.flush_jitter:
+    description: "Global flush interval"
+    default: "0s"
+  telegraf.data_collection_interval:
+    description: "Global data collection interval"
+    default: "60s"
+  telegraf.wavefront.url:
+    description: Wavefront Service url
+    default: https://wavefront-proxy.service.internal:4443
+  telegraf.wavefront.prefix:
+    description: Metrics Prefix
+    default: ''
+  telegraf.elasticsearch.servers:
+    description: "ES Endpoints with ports"
+    default: []
+  telegraf.elasticsearch.http_timeout:
+    description: "Timeout settings"
+    default: "5s"
+  telegraf.elasticsearch.local:
+    description: "boolean value"
+    default: true
+  telegraf.elasticsearch.cluster_health:
+    description: "boolean value"
+    default: false
+  telegraf.elasticsearch.cluster_health_level:
+    description: "Adjust cluster_health_level when you want to obtain detailed health stats"
+    default: "indices"
+  telegraf.elasticsearch.cluster_stats:
+    description: "Adjust cluster_health_level when you want to obtain detailed health stats"
+    default: true
+  telegraf.elasticsearch.cluster_stats_only_from_master:
+    description: "Only gather cluster_stats from the master node."
+    default: true
+  telegraf.elasticsearch.indices_level:
+    description: "Only gather cluster_stats from the master node."
+    default: "shards"
+  telegraf.elasticsearch.insecure_skip_verify:
+    description: ""
+    default: true
+  telegraf.elasticsearch.username:
+    description: "username"
+  telegraf.elasticsearch.password:
+    description: "password"
 
-  telegraf.influxdb.url:
-    description: InfluxDB url
-    default: http://localhost:8086
-  telegraf.influxdb.database:
-    description: InfluxDB database
-    default: system
-  telegraf.influxdb.retention_policy:
-    description: InfluxDB database retention policy
-    default: autogen
