@@ -2,7 +2,9 @@ name: c-telegraf-deployment
 
 releases:
 - name: c-telegraf
-  version: latest
+  sha1: 0aec1853013aa720cca9ca41ac122706c5e61598a5a7d87e9c87a0bdcc72d5b8
+  version: 10
+  url: https://github.com/hshelly/telegraf-boshrelease/blob/master/src/telegraf/telegraf-1.24.1_linux_amd64.tar.gz
 
 stemcells:
 - alias: default
