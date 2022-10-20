@@ -1,0 +1,44 @@
+name: c-telegraf-deployment
+
+releases:
+- name: c-telegraf
+  version: latest
+
+stemcells:
+- alias: default
+  os: ubuntu-xenial
+  version: latest
+
+instance_groups:
+- name: telegraf-system
+  instances: 1
+  azs: [us-central1-f]
+  jobs: 
+   - name: telegraf-system
+     release: c-telegraf
+     properties:
+       telegraf:
+         metric_buffer_limit: 10000
+         flush_interval: "15s"
+         flush_jitter: "0s"
+         data_collection_interval: "60s"         
+         elasticsearch:
+           servers: [ "http://10.0.0.7:9200" ]
+           http_timeout: "5s"
+           local: true
+           cluster_health: false
+           cluster_health_level: "indices"
+           cluster_stats: true
+           cluster_stats_only_from_master: true
+           indices_level: "shards"
+           insecure_skip_verify: true
+  vm_type: small
+  stemcell: default
+  networks:
+  - name: oroville-management-subnet
+
+update:
+  canaries: 1
+  max_in_flight: 10
+  canary_watch_time: 1000-30000
+  update_watch_time: 1000-30000
