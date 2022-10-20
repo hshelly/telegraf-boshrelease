@@ -2,5 +2,5 @@
 blobstore:
   provider: local
   options:
-    blobstore_path: /mnt/c/Users/hshelly/Documents/IdeaProjects/telegraf-boshrelease/blobs/telegraf/telegraf-1.24.1_linux_amd64.tar.gz
+    blobstore_path: src/telegraf/telegraf-1.24.1_linux_amd64.tar.gz telegraf/telegraf-1.24.1_linux_amd64.tar.gz
 final_name: c-telegraf

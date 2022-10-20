@@ -11,6 +11,7 @@
   prefix = "<%= p("telegraf.wavefront.prefix") %>"
   convert_paths=true
   metric_separator = "."
+  immediate_flush = true
 
 [[inputs.internal]]
   interval="1s"
